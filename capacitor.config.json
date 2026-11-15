@@ -1,0 +1,11 @@
+{
+  "appId": "com.jollybox.advent",
+  "appName": "JollyBOX",
+  "webDir": "www",
+  "backgroundColor": "#051429",
+  "ios": {
+    "contentInset": "never",
+    "preferredContentMode": "mobile"
+  },
+  "loggingBehavior": "debug"
+}

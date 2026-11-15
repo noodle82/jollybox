@@ -1,0 +1,27 @@
+{
+  "name": "jollybox",
+  "version": "1.0.0",
+  "private": true,
+  "description": "JollyBox — Naughty Elf Village, the interactive Christmas advent calendar",
+  "packageManager": "pnpm@11.25.0",
+  "engines": {
+    "node": ">=22.21.1"
+  },
+  "scripts": {
+    "build": "node scripts/build-web.cjs",
+    "check": "node scripts/check.cjs",
+    "ios:prepare": "pnpm build && cap sync ios && node scripts/configure-ios.cjs",
+    "serve": "node scripts/serve.cjs",
+    "build:site": "node scripts/build-site.cjs",
+    "serve:site": "node scripts/serve.cjs --site",
+    "postinstall": "node unpack.cjs"
+  },
+  "dependencies": {
+    "@capacitor/core": "8.6.2",
+    "@capacitor/ios": "8.6.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.6.2",
+    "yaml": "^2.9.1"
+  }
+}
