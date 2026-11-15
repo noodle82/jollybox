@@ -1,0 +1,42 @@
+workflows:
+  ios-testflight:
+    name: JollyBox TestFlight review
+    integrations:
+      app_store_connect: bluffle_apple
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment:
+      node: 24
+      xcode: "26.6"
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.jollybox.advent
+      vars:
+        BUNDLE_ID: com.jollybox.advent
+        JOLLYBOX_PREVIEW: "true"
+        APP_STORE_APPLE_ID: "6835128594"
+    scripts:
+      - name: Install pinned dependencies
+        script: |
+          npm install -g pnpm@11.25.0
+          pnpm install --frozen-lockfile
+      - name: Check and build JollyBox
+        script: |
+          pnpm check
+          pnpm ios:prepare
+          plutil -lint ios/App/App/Info.plist ios/App/App/PrivacyInfo.xcprivacy
+      - name: Resolve Swift packages
+        script: xcodebuild -resolvePackageDependencies -project ios/App/App.xcodeproj -scheme App
+      - name: Apply your signing profile
+        script: xcode-project use-profiles
+      - name: Build the iPad IPA
+        script: xcode-project build-ipa --project ios/App/App.xcodeproj --scheme App
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - ios/App/App/build/outputs/**
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        submit_to_app_store: false
