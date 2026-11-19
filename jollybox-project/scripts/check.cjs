@@ -1,0 +1,10 @@
+const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');const root=path.resolve(__dirname,'..'),web=path.join(root,'web');let count=0;
+for(const name of fs.readdirSync(web)){if(name.endsWith('.js')){const code=fs.readFileSync(path.join(web,name),'utf8');new vm.Script(code,{filename:name});count++;for(const m of code.matchAll(/assets\/[a-z0-9-]+\.(?:png|webp|ttf)/g))if(!fs.existsSync(path.join(web,m[0])))throw new Error('Missing '+m[0])}}
+const html=fs.readFileSync(path.join(web,'index.html'),'utf8');for(const m of html.matchAll(/(?:src|href)="([^"#]+\.(?:js|css|webmanifest))"/g))if(!fs.existsSync(path.join(web,m[1])))throw new Error('Missing '+m[1]);
+if(html.includes('data-explore="true"'))throw new Error('Source must remain date-locked. Use JOLLYBOX_PREVIEW for review builds.');
+const native=fs.readFileSync(path.join(root,'native/Info.plist'),'utf8');for(const key of['NSMicrophoneUsageDescription','NSPhotoLibraryUsageDescription','NSMotionUsageDescription'])if(!native.includes(key))throw new Error('Missing permission '+key);
+console.log('PASS '+count+' JavaScript files, referenced assets, date-locked source and iOS permission descriptions');
+
+const manifest=JSON.parse(fs.readFileSync(path.join(web,'manifest.webmanifest'),'utf8'));for(const icon of manifest.icons)if(!fs.existsSync(path.join(web,icon.src)))throw Error('Missing manifest icon');
+
+const yaml=require('yaml');const cm=yaml.parse(fs.readFileSync(path.join(root,'codemagic.yaml'),'utf8'));for(const [name,w] of Object.entries(cm.workflows)){if(w.environment.vars.BUNDLE_ID!==w.environment.ios_signing.bundle_identifier)throw Error(name+': bundle IDs must match');if(!w.scripts?.length)throw Error(name+': missing build steps')}const workflowDir=path.join(root,'.github/workflows');for(const name of fs.existsSync(workflowDir)?fs.readdirSync(workflowDir):[]){const w=yaml.parse(fs.readFileSync(path.join(root,'.github/workflows',name),'utf8'));if(!w.jobs||!Object.hasOwn(w.on||{},'workflow_dispatch'))throw Error('Invalid manual workflow '+name)}console.log('PASS Codemagic configuration and any optional website workflow YAML');

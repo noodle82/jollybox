@@ -1,0 +1,113 @@
+JollyBOX — November experience update
+
+OPEN ON YOUR COMPUTER
+Open “JollyBox - All Unlocked.html” to play with everything.
+Open “JollyBox.html” to see the countdown. Tap “Grown-up testing” for all doors or a simulated GMT date.
+
+WHAT CHANGED
+- Before December, the advent calendar waits behind a countdown. Christmas day is also counted down.
+- Door dates change at 00:01 GMT. Test 1 December 00:00 and 00:01 using Grown-up testing.
+- All-unlocked testing stays separate from the child's real door progress. Date simulation is session-only.
+- Thinner arcade cabinet frames leave more space for the game.
+- Slow-rise foam now compresses deeply and can be pulled out of shape, then recovers gradually.
+- Rainbow sand reveals coloured grooves; “Shake the sand” clears the tray.
+- Deeper, richer materials throughout the workshop; a detailed fish-free moonlit riverbed and finer interactive refraction in the pond.
+- Double-tap zoom, text selection and touch callouts are suppressed during play.
+- Ice climbing has narrower platforms, higher gaps and faster melting.
+- Five distinct surprise openings: parcel, scroll, cracker, arcade cabinet and sealed mission.
+- Reopened doors show a pictorial treasure desk. Remaining surprises stay wrapped.
+- Three baby companions: Pip, Ember and Juniper. Clover's gift slot is now shape-keeping putty. Existing child surprise orders remain intact.
+
+UPLOAD PACKAGES
+JollyBOX-Easy-GitHub-Upload.zip: for the noodle82/jollybox repository and Codemagic. Unzip it and upload its contents; do not upload the ZIP itself.
+JollyBOX-Website.zip: for the Bluffle repository. Unzip it and upload the WHOLE jollybox folder into the root of Bluffle. Keep index.html inside jollybox. Do not put its contents at Bluffle's root.
+Nothing has been published or sent to TestFlight by this update. Signing and a Mac build still happen in Codemagic.
+
+VALIDATION
+Browser checks: pre-December lock; 00:01 GMT rollover in a non-GMT timezone; five reveals; replay dashboard; three companions; persistent deformation and reset; ten non-soft fidget/world interactions; mobile arcade width; touch guards; ice climber startup. Native source and package checks also run before packaging.
+
+ARTWORK
+New pond asset: merry-little-magic/assets/moonlit-pond-riverbed.webp (also included inside the upload packages).
+Created with the built-in image generation tool. Prompt: A directly overhead view into a tiny magical moonlit freshwater pond; rich midnight emerald and turquoise depths; naturally irregular slate, charcoal, bronze and moss stones, delicate submerged plants, sandy patches and gold caustics; exquisite handcrafted storybook realism with subtle painterly ink edges and Christmas fairy light reflections. The rectangular frame is entirely submerged riverbed and water, with darker clear central swimming space. No rim, fish, text, logos or interface. Production texture beneath animated koi and interactive refraction.
+
+LATEST ARCADE FEEDBACK
+- Penguin Nest Quest: the camera follows a long flight across multiple screens; the nest stays at 145m. Power, angle, bouncing, sliding and previous attempts remain.
+- Mitten Match: choose 12, 16, 24 or 36 squares. Changing board size safely clears any pending turn.
+- Santa’s Tangled Route has become Santa’s Rooftop Drop: a moving sleigh, changing wind, lit chimney targets, eight-delivery win and five-miss ending.
+- Jingle Jam: Jingle Bells, We Wish You a Merry Christmas and Deck the Halls, with real melody arrangements, adaptive piano lanes, tempo choices and Listen & learn. Starting the song enables sound; either sound control can mute it.
+- Ice Slide Rescue: eight levels, progressively larger boards and minimum routes of 3 through 10 slides, with restarts, hints and fresh maze remixes.
+- Crack the Elf Code: enlarged labelled colour controls, numbered slots, letter markings, clearer feedback and ten guesses. Tested duplicate-colour scoring, actual solving, reset and mobile controls.
+- Validation: 160 generated ice mazes checked; all eight levels solved through the controls; all six games checked on phone layouts; penguin nest success confirmed; rooftop win/loss played through; music controls and cleanup checked.
+
+POND, SOUND, FOOTBALL AND DASHBOARD UPDATE
+- Removed the animated fish and the flat lotus ornament, leaving the natural moonlit water.
+- Sound effects are on by default. Explicitly muting sound is remembered. Tapping or stirring the pond now triggers soft water-drop sounds; validated the generated audio waveform, touch-to-start audio context and mute behaviour.
+- Bowling is replaced by Santa’s Penalty Shootout. Swipe up from the football: swipe length/speed sets power, and a bent swipe adds curl. Santa reacts in goal. Five kicks per match, with goals, saves, wide/overbar/underpowered feedback and replay. Optional button controls are also available.
+- The football game inherits bowling’s existing gift slot, preserving saved child plans and day 3/day 6 scheduling alongside Funny Faces.
+- The treasure desk uses a balanced three-above, two-centred-below layout; on phones it becomes two, two and one centred tile.
+- Corrected canvas sizing so touch coordinates match the whole visible pitch without letterboxing.
+- Browser validation: default-on sound and remembered mute; pond waveform; centred dashboard geometry; goals, Santa saves, misses and match scoring; actual curved swipe controls; phone layout; 26 unique machines.
+
+FINAL VISUAL AND COMPANION POLISH — 15 NOVEMBER 2026
+
+INTRO AND WAITING SCREEN
+The approved midnight-blue JollyBOX cover, logo, gold 24 and turquoise opening button remain unchanged. The cover artwork is byte-for-byte identical. Only the illustration revealed behind the opening 24 flap now uses the actual Naughty Elf Village picture.
+The waiting message is now above the intro artwork, rather than underneath it. It shows how many days remain until 1 December at 00:01 GMT. “What’s inside JollyBOX?” explains the five daily surprises. “How JollyBOX works” is also available from the village power station.
+Open JollyBox.html to see the normal date-locked intro. In JollyBox - All Unlocked.html, use “See waiting screen” to demonstrate a 3-day countdown, or use Grown-up testing to choose a date or return to the real GMT date.
+
+ALL 26 GAMES
+New illustrated characters and objects, four detailed festive backdrops, richer materials, sharper rendering, clearer score labels and improved puzzle surfaces. The arcade machines now show previews captured from their actual updated games. The game identifiers and saved child gift plans are preserved.
+The mirror now has an illustrated elf sample face, higher-resolution rendering and smooth shader-based bubble/swirl/stretch deformation, with a canvas fallback. Uploaded photos, switching effects and resetting were tested.
+The picture puzzle uses a detailed illustrated courtyard. Spot the Difference has seven authored changes over matching postcard scenes, including one tiny missing snowflake arm. All seven were tested through the actual controls.
+The new graphics preserve existing mechanics: scrolling penguin flight with a 145m nest, swipe football with Santa in goal, variable mitten boards, Christmas carols, increasingly difficult ice mazes and all other unique games.
+
+THREE LIVING BABY COMPANIONS
+Pip: warm milk, blueberry, soft brush, star rattle; soft cloudling chirrups.
+Ember: apple juice, strawberry, amber comb, teddy; bouncy lower dragon warbles and teddy cuddles.
+Juniper: oat milk, pear, wooden comb, little bell; gentler higher woodland coos and bell play.
+Each has eight expression frames: neutral, giggle, sleepy/purr, feeding, smile, yawn, surprised and curious. Added eye tracking, breathing, head tilts, tummy tickles, nose boops, sleepy idle reactions and waking. Care items remain draggable, with matching rendered materials and attachment/occlusion around the baby. Each has a warm nursery setting and different voice pitch, resonance, cadence, giggle and purr. Greeting coos, drinking, nibbling, grooming and individual toy sounds respect the global mute preference.
+
+VALIDATION
+All 26 games opened without runtime or missing-asset errors. Actual controls were used to solve matching pairs, all eight word-search words, Sudoku, all nine picture pieces and all seven differences. Tested mirror distortion, effect switching, photo import and exact reset; high-resolution icing hit detection; phone layouts; all four drag/drop care items for every baby; eight loaded expressions; moving eyes; five-tap hatching; curious/yawn/doze/wake lifecycle. Three different companion audio waveforms were rendered and checked. Native configuration and upload-package checks run during packaging. No new signed iOS build or TestFlight upload has been performed here.
+
+ARTWORK PROVENANCE
+Built-in image generation was used for the following project assets, then sprite cells were normalised and encoded for the app. No generated alternative calendar cover is used.
+- assets/arcade-illustrated-sprites.webp: transparent 4x4 atlas of penguin, sleigh, elf, reindeer, gift, bauble, mitten, tree, bell, candy cane, gingerbread, snowman, Santa goalkeeper, snow sprite, chimney and ice crystal. Prompt: match the supplied village’s humorous Christmas-card ink-and-paint style, crisp readable silhouettes, rich red/green/gold/blue materials, one complete isolated object in each equal cell, no text or background.
+- assets/arcade-illustrated-scenes.webp: four matched 3:2 scene panels. Prompt: a precise 2x2 atlas of moonlit snowy village outskirts, a warm elf workshop with open table, a frozen lake with clear playing space, and a detailed courtyard with cottage/tree/snowman; match the village’s painted ink style and leave calm gameplay space; no lettering or UI.
+- assets/pip-extra-expressions.webp, assets/ember-extra-expressions.webp, assets/juniper-extra-expressions.webp: each is a transparent 2x2 expression atlas. Prompt: preserve the exact supplied companion’s species, colours, fur, eyes, body, paws and seated proportions; show a delighted smile, a wide sleepy yawn, a surprised little face and an inquisitive head tilt, at consistent scale and baseline, with no props, frames or text.
+- assets/baby-care-collection.webp: transparent 4x2 prop atlas. Prompt: realistic soft studio lighting matching the existing bottle and brush; lavender apple-juice sippy cup, strawberry, amber comb, plush teddy, moss-collar oat-milk bottle, pear wedge, wooden comb and brass bell; isolated complete objects, matching tactile materials, no text. The two combs were refined to show separated smooth teeth while retaining the other props.
+- assets/pip-blueberry.webp: prompt: one plump realistic indigo blueberry with natural bloom and visible calyx crown, soft studio light matching the supplied care-fruit reference, isolated with transparent padding, no leaves, text or background.
+- assets/elf-mirror-portrait.webp: prompt: front-facing friendly mischievous elf portrait, curly hair, medium-brown freckled face, huge warm eyes, cheeky tongue-out smile, red hat and green tunic, painted teal backdrop; match the village’s detailed funny Christmas-card illustration style, no text or interface.
+All 26 game-preview images are captures of the app’s actual rendered games.
+
+GOLF, QUIET BACKGROUNDS AND TACTILE MATERIALS — 15 November 2026
+- Eight selectable golf courses, from an open practice green to bends, narrow passages, slalom and a final four-wall layout. Each hole has a par, restart and next-course control; scorecard tracks the best score for each hole during this play session.
+- Drag back to aim, or use aim/power sliders and Putt. Keyboard arrows adjust aim/power; Enter or Space putts when the canvas is focused. A dotted prediction uses the same collision/friction solver as the ball. Fast shots can skim over the cup; gentle shots drop in. Rolling ball has depth, shadow, dimples, a short trail and a sinking animation.
+- Shared arcade backgrounds use restrained gradients and a subtle horizon, with illustrated artwork reserved for picture puzzles and game pieces. Football crowd and stars are quieter. Original opening calendar and village are unchanged.
+- Rainbow sand now has cached individual-grain texture, warm uneven surface light, a recessed wooden tray, connected rake grooves with coloured floors and shaded edges, textured pressed stamps, a brass rake and exact shake-to-reset. The surface retains marks across separate strokes.
+- Spinner has metal bearings and a machined brass hub. Infinity cube has shaded enamel faces and visible hinge/rivet details. All fidgets use a walnut bench and stitched dark teal mat. Gift-shop thumbnails match these three new renderers. No new raster assets or downloads were needed for these materials.
+Validation: actual UI putt and next-course progression; all eight courses solved using the production solver and rounded aim/power inputs; power/friction/cup-speed/wall/corner checks; dragged rainbow grooves, pressed stamp and pixel-exact reset; spinner and cube interaction; phone control fit. General arcade/companion regression checks and packaged website/standalone checks also run. Not deployed: GitHub write connection was refused in the previous upload attempt.
+
+CHEEKY BABIES, HANDS-ON MUSIC AND NEW TOYS — 15 November 2026
+- Jingle Jam play mode no longer schedules the melody. Only a pressed key sounds. Listen & learn is an explicit separate demo mode. Starting a song respects the existing sound preference.
+- Removed the Happy heart / Cosy tummy / Lovely fluff meters from all three nurseries. Existing saved care data remains compatible.
+- Pip, Ember and Juniper each have a new coy/bashful cheeky face (nine expressions total), with eye movement. Tickle and pause to see it. A short occasional fart also prompts an innocent coy look, roughly every 40–80 seconds while awake after an initial 18–23 seconds. Sound muting is respected.
+- Infinity cube: eight lively enamel colours, stars, dots and smiles, larger model, shaded faces, brass hinges and playful folding motion.
+- Sand: fine 3-tooth, classic 7-tooth, wide 11-tooth, fan and wavy rakes. Switching rakes retains existing grooves and stamps; shake resets the surface.
+- Ripple pond: lower pitched, longer, deeper water drops and soft low-frequency water texture.
+- Zip board: movement-driven ratcheting zip sound, with changes in texture as drag speed changes.
+- Magnetic balls: bright reflective chrome with spherical environment reflections and highlights.
+- Music box: softer sine-based chimes, quieter overtones and a gentle onset/decay. Notes sound as the handle is wound.
+- Replaced the planetarium gift with a realistic wishing candle: photographic wax and brass, animated flame/glow, light and blow-out controls, curling smoke. Optional microphone blowing starts only when requested and stops when the toy closes; a button also works without microphone access. No microphone audio leaves the device.
+Validation: browser tests for manual vs listening Jingle Jam, five rake patterns, zip/music drag audio triggers, all three nine-expression nurseries without meters, occasional fart timing, candle light/extinguish/smoke, breath detection and microphone track cleanup, phone layout. Offline audio rendering verifies real nonzero waveforms, deep water and softened music peaks. Existing arcade, baby care and package checks also run. Physical iPad speaker/microphone behaviour still needs the user's device test.
+New art files and prompts (built-in image generation tool):
+- assets/pip-coy.webp, assets/ember-coy.webp, assets/juniper-coy.webp: one transparent three-cell atlas, one cell per supplied baby. Prompt: preserve the exact blue cloudling, lavender dragon and fawn deer, fur, species, seated body, paws, scale and light; change only the expression to a cute coy, bashful 'who, me?' face with an asymmetric smile, sideways/downward open glossy eyes, raised eyebrows, soft blush and a tiny head tilt. Complete body, equal framing, transparent padding, no props or text. Cells were cropped, low-alpha fringe cleared, fitted to 512px and saved with transparency.
+- assets/wishing-candle-wax.webp: prompt: photorealistic unlit ivory beeswax pillar on a thin gently tarnished brass saucer, natural uneven melted lip, concave wax pool, tiny curved charred wick, organic drips, subtle wax grain, subsurface scattering; upper-left studio light, slightly overhead view, full object on actual transparency, no flame/glow/smoke/background/hands/text. This static body sits below the app's animated flame and smoke.
+
+BUTTERY SQUISHY REPLACES THE ZIP BOARD — 15 November 2026
+- The former Zip, click, snap! gift is now The buttery squishy, in the same gift slot. Each child's saved surprise order and progress remain unchanged.
+- Rounded buttery-yellow foam block inspired by the supplied reference, with blue BUTTER / ELF MADE printing mapped to the deformable surface. Lettering bends and stretches with the body. No generated bitmap or remote asset is used.
+- Press and hold for a deep soft dent; pull an end to bend it; use two simultaneous fingers to knead and stretch both ends. Deformation stays briefly after release, then slowly relaxes. Knead both ends provides an accessible one-button interaction; Fresh butter restores the original block. Sound follows the saved preference.
+- A dedicated rounded-box mesh gives smoother folds than the spherical toys. Existing soft toys retain their own shape branches. Devices without WebGL use a separately deformed canvas surface with printed lettering.
+- Matching gift-shop thumbnail; old zipper-kind callers are routed to the new squishy for compatibility.
+Validation: real held mouse press, deep compression, dragging, recovery, two trusted touch points, touch cancellation, reset, one-button kneading, every pre-existing soft-toy shader without GL errors, canvas fallback, gift shelf and phone width. Updated website and standalone packages are also checked. Not published by this update.
