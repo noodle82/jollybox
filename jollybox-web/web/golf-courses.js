@@ -1,0 +1,57 @@
+/* Logical coordinates and one shared collision solver keep aiming and rolling consistent. */
+const ELF_GOLF_COURSES=[
+ {name:'First frost',par:2,start:[105,285],hole:[530,135],walls:[]},
+ {name:'Around the bend',par:2,start:[100,300],hole:[535,285],walls:[[300,175,28,187]]},
+ {name:'The dogleg',par:3,start:[100,295],hole:[545,115],walls:[[230,78,27,202],[400,195,27,167]]},
+ {name:'Pick a passage',par:3,start:[95,220],hole:[550,220],walls:[[300,78,30,117],[300,249,30,113]]},
+ {name:'Bank on it',par:3,start:[105,305],hole:[535,130],walls:[[160,217,320,24]]},
+ {name:'Candy cane slalom',par:4,start:[90,310],hole:[555,125],walls:[[190,78,25,176],[310,207,25,155],[430,78,25,176]]},
+ {name:'Ice islands',par:4,start:[90,220],hole:[550,220],walls:[[205,155,70,70],[337,245,70,65],[405,104,65,65]]},
+ {name:'The elf cup',par:5,start:[85,315],hole:[555,110],walls:[[170,180,25,182],[290,78,25,160],[410,212,25,150],[500,183,112,23]]}
+].map(c=>({...c,start:{x:c.start[0],y:c.start[1]},hole:{x:c.hole[0],y:c.hole[1]},walls:c.walls.map(([x,y,w,h])=>({x,y,w,h}))}));
+function golfAdvanceBall(ball,course,dt){
+ const radius=8,steps=Math.max(1,Math.ceil(Math.hypot(ball.vx,ball.vy)*dt/4));let hits=0;
+ for(let i=0;i<steps;i++){
+  const h=dt/steps;ball.x+=ball.vx*h;ball.y+=ball.vy*h;
+  for(const [axis,lo,hi] of [['x',29,611],['y',80,371]]){const v=axis==='x'?'vx':'vy';if(ball[axis]<lo){ball[axis]=lo;if(ball[v]<0){ball[v]*=-.8;hits++}}else if(ball[axis]>hi){ball[axis]=hi;if(ball[v]>0){ball[v]*=-.8;hits++}}}
+  for(const w of course.walls){const nx=clamp(ball.x,w.x,w.x+w.w),ny=clamp(ball.y,w.y,w.y+w.h);let dx=ball.x-nx,dy=ball.y-ny,len=Math.hypot(dx,dy);if(len>=radius)continue;
+   if(len<.0001){const faces=[{d:ball.x-w.x,x:-1,y:0},{d:w.x+w.w-ball.x,x:1,y:0},{d:ball.y-w.y,x:0,y:-1},{d:w.y+w.h-ball.y,x:0,y:1}].sort((a,b)=>a.d-b.d);dx=faces[0].x;dy=faces[0].y;ball.x+=dx*(faces[0].d+radius);ball.y+=dy*(faces[0].d+radius)}else{dx/=len;dy/=len;ball.x+=dx*(radius-len);ball.y+=dy*(radius-len)}
+   const dot=ball.vx*dx+ball.vy*dy;if(dot<0){ball.vx-=1.82*dot*dx;ball.vy-=1.82*dot*dy;hits++}
+  }
+  const speed=Math.hypot(ball.vx,ball.vy),distance=Math.hypot(ball.x-course.hole.x,ball.y-course.hole.y);
+  if(distance<14&&speed<180){ball.x=course.hole.x;ball.y=course.hole.y;ball.vx=ball.vy=0;return{hits,sunk:true}}
+  const drag=Math.exp(-h*1.45);ball.vx*=drag;ball.vy*=drag;
+ }
+ if(Math.hypot(ball.vx,ball.vy)<6)ball.vx=ball.vy=0;return{hits,sunk:false}
+}
+function elfGolfTour(d,el){
+ const g=gameKit(el,'Eight frosty courses. Drag backwards from the ball and release to putt. The dotted line shows your first bounce. A gentle shot drops into the cup.'),c=g.ctx;
+ let uiSignature='',lastBall='';let index=0,ball,strokes=0,phase='aiming',drag=null,trail=[],sparkles=[],aim=-25,power=45,showAim=false,sinkTime=0;
+ g.c.tabIndex=0;g.c.setAttribute('aria-label','Mini golf. Drag back from the ball, or use arrow keys to aim and set power, then press Enter to putt.');const scores=Array(ELF_GOLF_COURSES.length).fill(null);
+ const chooser=document.createElement('label');chooser.className='golf-course-choice';chooser.innerHTML='Course <select id="golf-course" aria-label="Golf course">'+ELF_GOLF_COURSES.map((q,i)=>`<option value="${i}">${i+1}. ${q.name} · par ${q.par}</option>`).join('')+'</select>';g.controls.appendChild(chooser);
+ const sliders=document.createElement('div');sliders.className='golf-aim-controls';sliders.innerHTML='<label>Aim <input type="range" id="golf-aim" aria-label="Golf aim" min="-180" max="180" value="-25"><output>−25°</output></label><label>Power <input type="range" id="golf-power" aria-label="Golf power" min="5" max="100" value="45"><output>45%</output></label>';g.controls.appendChild(sliders);
+ const aimInput=sliders.querySelector('#golf-aim'),powerInput=sliders.querySelector('#golf-power'),courseInput=chooser.querySelector('select');
+ function sync(){const position=JSON.stringify({x:ball.x,y:ball.y,vx:ball.vx,vy:ball.vy});if(position!==lastBall){g.c.dataset.ball=position;lastBall=position}const signature=[index,phase,strokes,Math.round(aim),Math.round(power),...scores].join('|');if(signature===uiSignature)return;uiSignature=signature;g.c.dataset.course=index+1;g.c.dataset.phase=phase;g.c.dataset.strokes=strokes;g.c.dataset.scores=JSON.stringify(scores);putt.disabled=phase!=='aiming';next.disabled=phase!=='holed';aimInput.disabled=powerInput.disabled=phase!=='aiming';aimInput.value=Math.round(aim);powerInput.value=Math.round(power);aimInput.nextElementSibling.textContent=Math.round(aim)+'°';powerInput.nextElementSibling.textContent=Math.round(power)+'%'}
+ function start(n){index=n;const q=ELF_GOLF_COURSES[index];ball={...q.start,vx:0,vy:0};strokes=0;phase='aiming';drag=null;trail=[];sparkles=[];sinkTime=0;showAim=false;aim=Math.atan2(q.hole.y-ball.y,q.hole.x-ball.x)*180/Math.PI;power=45;courseInput.value=index;next.textContent=index===7?'Play the tour again':'Next course →';g.say(`Course ${index+1} of 8 · ${q.name} · par ${q.par}. Pull back from the ball to aim.`);sync()}
+ function shoot(){if(phase!=='aiming')return;const a=aim*Math.PI/180,speed=power/100*650;ball.vx=Math.cos(a)*speed;ball.vy=Math.sin(a)*speed;phase='rolling';strokes++;trail=[];drag=null;showAim=false;tone([540],.045);g.say(`Putt ${strokes} — watch it roll.`);sync()}
+ const putt=g.button('Putt ↗',shoot),retry=g.button('Restart this course',()=>start(index),true),next=g.button('Next course →',()=>{if(phase==='holed'){if(index===7)scores.fill(null);start((index+1)%8)}});
+ courseInput.onchange=()=>start(+courseInput.value);
+ for(const input of[aimInput,powerInput])g.on(input,'input',()=>{aim=+aimInput.value;power=+powerInput.value;showAim=true;sync()});
+ g.on(g.c,'pointerdown',e=>{e.preventDefault();if(phase!=='aiming')return;const p=g.pos(e);if(Math.hypot(p.x-ball.x,p.y-ball.y)>44)return;g.c.focus({preventScroll:true});drag={x:ball.x,y:ball.y};g.c.setPointerCapture(e.pointerId)});
+ function move(e){if(!drag)return;const p=g.pos(e);drag=p;const dx=ball.x-p.x,dy=ball.y-p.y;aim=Math.atan2(dy,dx)*180/Math.PI;power=clamp(Math.hypot(dx,dy)/120*100,0,100);showAim=true;sync()}
+ g.on(g.c,'pointermove',move);g.on(g.c,'pointerup',e=>{if(!drag)return;move(e);drag=null;if(power<5){showAim=false;power=5;sync();return}shoot()});g.on(g.c,'pointercancel',()=>{drag=null;showAim=false;sync()});g.on(g.c,'lostpointercapture',()=>{drag=null});
+ g.on(g.c,'keydown',e=>{if(phase!=='aiming'||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown',' ','Enter'].includes(e.key))return;e.preventDefault();if(e.key===' '||e.key==='Enter'){shoot();return}if(e.key==='ArrowLeft')aim-=3;if(e.key==='ArrowRight')aim+=3;if(e.key==='ArrowUp')power=clamp(power+3,5,100);if(e.key==='ArrowDown')power=clamp(power-3,5,100);aim=((aim+540)%360)-180;showAim=true;sync()});
+ function rawText(text,x,y,size=14,colour='#d6e9e6',align='left'){c.save();c.font=`800 ${size}px "Jolly Nunito",sans-serif`;c.textAlign=align;c.fillStyle=colour;c.fillText(text,x,y);c.restore()}
+ g.run((dt,t)=>{
+  const q=ELF_GOLF_COURSES[index];
+  if(phase==='rolling'){const result=golfAdvanceBall(ball,q,dt);if(result.hits)tone([240],.025);if(result.sunk){phase='holed';scores[index]=scores[index]===null?strokes:Math.min(scores[index],strokes);sinkTime=t;sparkles=Array.from({length:16},(_,i)=>({a:i*Math.PI/8,r:18+i%3*9}));const delta=strokes-q.par;g.say(`${strokes===1?'Hole in one!':delta<0?'Under par!':delta===0?'On par!':'In the cup!'} ${strokes} ${strokes===1?'putt':'putts'} · ${index===7?'Tour complete! Choose a course to improve your score.':'Your next course is ready.'}`);tone([523,659,784],.1)}else if(ball.vx===0&&ball.vy===0){phase='aiming';aim=Math.atan2(q.hole.y-ball.y,q.hole.x-ball.x)*180/Math.PI;g.say(`${strokes} ${strokes===1?'putt':'putts'}. Line up your next shot.`)}else{trail.push({x:ball.x,y:ball.y});if(trail.length>16)trail.shift()}}
+  gameBackground(c);rawText(`${index+1} / 8   ${q.name.toUpperCase()}`,24,28,14,'#f4dfab');rawText(`PAR ${q.par}     PUTTS ${strokes}`,615,28,13,'#d1e5df','right');const completed=scores.filter(v=>v!==null);rawText(completed.length?`SCORECARD   ${completed.length}/8 holes · ${completed.reduce((a,b)=>a+b,0)} putts`:'ELF CUP · NORTH POLE MINI GOLF',24,49,10,'#8fbdc7');
+  c.save();c.shadowColor='#031d2c77';c.shadowBlur=9;c.shadowOffsetY=5;gRound(c,15,65,610,321,18,'#163f50');c.restore();const ice=c.createLinearGradient(22,73,600,380);ice.addColorStop(0,'#b3dedc');ice.addColorStop(.5,'#94c9ce');ice.addColorStop(1,'#79aebf');gRound(c,22,73,596,305,12,ice);c.strokeStyle='#e9faf280';c.lineWidth=1;c.beginPath();c.roundRect(24,75,592,301,11);c.stroke();
+  q.walls.forEach(w=>{c.save();c.shadowColor='#21546966';c.shadowBlur=4;c.shadowOffsetY=3;const block=c.createLinearGradient(w.x,w.y,w.x+w.w,w.y+w.h);block.addColorStop(0,'#eefaf0');block.addColorStop(.2,'#c0e6e7');block.addColorStop(1,'#548ca9');gRound(c,w.x,w.y,w.w,w.h,5,block);c.shadowBlur=c.shadowOffsetY=0;c.strokeStyle='#f8fffcb0';c.lineWidth=2;c.beginPath();c.moveTo(w.x+4,w.y+w.h-5);c.lineTo(w.x+4,w.y+4);c.lineTo(w.x+w.w-4,w.y+4);c.stroke();c.restore()});
+  c.fillStyle='#3a7487';c.beginPath();c.ellipse(q.hole.x,q.hole.y+2,15,11,0,0,7);c.fill();const cup=c.createRadialGradient(q.hole.x-2,q.hole.y-3,1,q.hole.x,q.hole.y,12);cup.addColorStop(0,'#102c37');cup.addColorStop(1,'#174352');c.fillStyle=cup;c.beginPath();c.ellipse(q.hole.x,q.hole.y,12,9,0,0,7);c.fill();c.strokeStyle='#e9f7db';c.lineWidth=1.5;c.stroke();c.strokeStyle='#d6bd7a';c.lineWidth=2.5;c.beginPath();c.moveTo(q.hole.x+1,q.hole.y-1);c.lineTo(q.hole.x+1,q.hole.y-40);c.stroke();c.fillStyle='#bd3656';c.beginPath();c.moveTo(q.hole.x+1,q.hole.y-40);c.quadraticCurveTo(q.hole.x+17,q.hole.y-45,q.hole.x+32,q.hole.y-33+Math.sin(t*2)*2);c.lineTo(q.hole.x+1,q.hole.y-24);c.fill();
+  if(showAim&&phase==='aiming'){let ghost={...ball,vx:Math.cos(aim*Math.PI/180)*power/100*650,vy:Math.sin(aim*Math.PI/180)*power/100*650};c.fillStyle='#164a65';for(let i=0;i<42;i++){const hit=golfAdvanceBall(ghost,q,.033);if(i%2===0){c.globalAlpha=.65*(1-i/48);c.beginPath();c.arc(ghost.x,ghost.y,2.2,0,7);c.fill()}if(hit.sunk)break}c.globalAlpha=1;c.strokeStyle='#edbd58';c.lineWidth=4;c.lineCap='round';c.beginPath();c.arc(ball.x,ball.y,19,-Math.PI/2,-Math.PI/2+power/100*Math.PI*2);c.stroke();if(drag){c.strokeStyle='#315c73aa';c.lineWidth=2;c.beginPath();c.moveTo(ball.x,ball.y);c.lineTo(ball.x-Math.cos(aim*Math.PI/180)*Math.min(120,power*1.2),ball.y-Math.sin(aim*Math.PI/180)*Math.min(120,power*1.2));c.stroke()}}
+  trail.forEach((p,i)=>{c.fillStyle=`rgba(246,255,245,${i/trail.length*.23})`;c.beginPath();c.arc(p.x,p.y,3+i/trail.length*3,0,7);c.fill()});const scale=phase==='holed'?Math.max(0,1-(t-sinkTime)*3):1;if(scale>0){c.save();c.translate(ball.x,ball.y);c.scale(scale,scale);c.fillStyle='#244e6b42';c.beginPath();c.ellipse(2,6,9,4,0,0,7);c.fill();const gloss=c.createRadialGradient(-3,-4,1,0,0,9);gloss.addColorStop(0,'#fffdf0');gloss.addColorStop(.6,'#edf7ef');gloss.addColorStop(1,'#8badbd');c.fillStyle=gloss;c.beginPath();c.arc(0,0,8,0,7);c.fill();c.strokeStyle='#f8fff9';c.lineWidth=.8;c.stroke();c.fillStyle='#8aa7b555';for(let i=0;i<5;i++){c.beginPath();c.arc(Math.cos(i*2.4)*4,Math.sin(i*2.4)*4,1,0,7);c.fill()}c.restore()}
+  if(phase==='holed'&&t-sinkTime<1.1){const age=t-sinkTime;c.globalAlpha=Math.max(0,1-age);sparkles.forEach(p=>starShape(c,q.hole.x+Math.cos(p.a)*(p.r+age*45),q.hole.y+Math.sin(p.a)*(p.r+age*45),3,'#fff1af'));c.globalAlpha=1}sync()
+ });start(0)
+}
+EXTRA_GAMES.golf=elfGolfTour;
