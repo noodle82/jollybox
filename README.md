@@ -1,5 +1,8 @@
 # JollyBOX: Naughty Elf Village — GitHub, Codemagic and TestFlight
 
+UPDATE — 19 November 2026
+If JollyBOX already works in TestFlight, reuse your existing Codemagic app, signing certificate and profile. Follow step 1 to replace the upload files, then steps 6 and 7. No new Apple app or certificate is needed.
+
 Your app details
 - App name: JollyBOX: Naughty Elf Village
 - Subtitle: Interactive Advent Calendar
@@ -9,7 +12,7 @@ Your app details
 - Existing Apple connection in your Bluffle Codemagic configuration: bluffle_apple
 
 1. Upload the app files to GitHub
-Download JollyBOX-Easy-GitHub-Upload.zip and extract it once. In https://github.com/noodle82/jollybox choose Add file > Upload files. Open the extracted folder, select ALL its contents, including the .github folder, and drag those items into GitHub. Keep jollybox-web.tar.gz and jollybox-project.tar.gz compressed. Commit the upload to main.
+Download JollyBOX-Easy-GitHub-Upload.zip and extract it once. In https://github.com/noodle82/jollybox choose Add file > Upload files. Open the extracted folder, select ALL its contents, and drag those items into GitHub. The .github folder supplies optional website publishing workflows; it is not required for TestFlight. Keep jollybox-web.tar.gz and jollybox-project.tar.gz compressed. Commit the upload to main.
 
 Check the repository's top level: you should see codemagic.yaml, package.json, unpack.cjs, jollybox-web.tar.gz and jollybox-project.tar.gz. Codemagic will unpack the complete app automatically. The full project and latest artwork are inside those two compressed files.
 
