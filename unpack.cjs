@@ -6,4 +6,5 @@ for(const name of ['jollybox-web.tar.gz','jollybox-project.tar.gz']){
  for(const entry of entries){const normalized=entry.replaceAll('\\','/');if(normalized.startsWith('/')||normalized.includes(':')||normalized.split('/').includes('..')||!allowed.has(normalized.split('/')[0]))throw new Error('Unexpected archive path: '+entry)}
  execFileSync('tar',['-xzf',archive,'-C',root],{windowsHide:true,stdio:'pipe'});
 }
-console.log('JollyBOX source, artwork and native project unpacked.');
+console.log('JOLLYmix source, artwork and native project unpacked.');
+

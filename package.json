@@ -2,7 +2,7 @@
   "name": "jollybox",
   "version": "1.0.0",
   "private": true,
-  "description": "JollyBox — Naughty Elf Village, the interactive Christmas advent calendar",
+  "description": "JOLLYmix — Naughty Elf Village, the interactive Christmas advent calendar",
   "packageManager": "pnpm@11.25.0",
   "engines": {
     "node": ">=22.21.1"

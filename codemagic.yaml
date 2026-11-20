@@ -1,6 +1,6 @@
 workflows:
   ios-review:
-    name: JollyBox iPad review (all unlocked)
+    name: JOLLYmix iPad review (all unlocked)
     instance_type: mac_mini_m2
     max_build_duration: 60
     environment:
@@ -18,7 +18,7 @@ workflows:
           node unpack.cjs
           npm install -g pnpm@11.25.0
           pnpm install --frozen-lockfile
-      - name: Check and build JollyBox
+      - name: Check and build JOLLYmix
         script: |
           pnpm check
           pnpm ios:prepare
@@ -34,7 +34,7 @@ workflows:
       - /tmp/xcodebuild_logs/*.log
       - ios/App/App/build/outputs/**
   ios-calendar:
-    name: JollyBox date-locked calendar
+    name: JOLLYmix date-locked calendar
     instance_type: mac_mini_m2
     max_build_duration: 60
     environment:
@@ -52,7 +52,7 @@ workflows:
           node unpack.cjs
           npm install -g pnpm@11.25.0
           pnpm install --frozen-lockfile
-      - name: Check and build JollyBox
+      - name: Check and build JOLLYmix
         script: |
           pnpm check
           pnpm ios:prepare
@@ -68,7 +68,7 @@ workflows:
       - /tmp/xcodebuild_logs/*.log
       - ios/App/App/build/outputs/**
   ios-testflight:
-    name: JollyBOX iPhone and iPad TestFlight review
+    name: JOLLYmix iPhone and iPad TestFlight review
     integrations:
       app_store_connect: bluffle_apple
     instance_type: mac_mini_m2
@@ -89,7 +89,7 @@ workflows:
           node unpack.cjs
           npm install -g pnpm@11.25.0
           pnpm install --frozen-lockfile
-      - name: Check and build JollyBox
+      - name: Check and build JOLLYmix
         script: |
           pnpm check
           pnpm ios:prepare
@@ -107,5 +107,6 @@ workflows:
     publishing:
       app_store_connect:
         auth: integration
-        submit_to_testflight: true
+        # Upload for internal testing; do not request external beta review.
+        submit_to_testflight: false
         submit_to_app_store: false

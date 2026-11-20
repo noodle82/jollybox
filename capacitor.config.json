@@ -1,11 +1,16 @@
 {
   "appId": "com.jollybox.advent",
-  "appName": "JollyBOX",
+  "appName": "JOLLYmix",
   "webDir": "www",
   "backgroundColor": "#051429",
   "ios": {
     "contentInset": "never",
     "preferredContentMode": "mobile"
   },
-  "loggingBehavior": "debug"
+  "loggingBehavior": "debug",
+  "plugins": {
+    "JollyNative": {
+      "timeOrigin": "https://bluffle.co.uk/"
+    }
+  }
 }
