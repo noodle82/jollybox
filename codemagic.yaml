@@ -1,6 +1,6 @@
 workflows:
   ios-review:
-    name: JOLLYmix iPad review (all unlocked)
+    name: JollyMix device testing (review code access)
     instance_type: mac_mini_m2
     max_build_duration: 60
     environment:
@@ -11,7 +11,7 @@ workflows:
         bundle_identifier: com.jollybox.advent
       vars:
         BUNDLE_ID: com.jollybox.advent
-        JOLLYBOX_PREVIEW: "true"
+        JOLLYBOX_PREVIEW: "false"
     scripts:
       - name: Install pinned dependencies
         script: |
@@ -81,7 +81,7 @@ workflows:
         bundle_identifier: com.jollybox.advent
       vars:
         BUNDLE_ID: com.jollybox.advent
-        JOLLYBOX_PREVIEW: "true"
+        JOLLYBOX_PREVIEW: "false"
         APP_STORE_APPLE_ID: "6835128594"
     scripts:
       - name: Install pinned dependencies
@@ -110,3 +110,4 @@ workflows:
         # Upload for internal testing; do not request external beta review.
         submit_to_testflight: false
         submit_to_app_store: false
+
