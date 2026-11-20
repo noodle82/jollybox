@@ -1,6 +1,6 @@
 # JollyBOX: Naughty Elf Village — GitHub, Codemagic and TestFlight
 
-UPDATE — 19 November 2026
+UPDATE — 20 November 2026
 If JollyBOX already works in TestFlight, reuse your existing Codemagic app, signing certificate and profile. Follow step 1 to replace the upload files, then steps 6 and 7. No new Apple app or certificate is needed.
 
 Your app details
