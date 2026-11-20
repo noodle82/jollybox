@@ -1,0 +1,13 @@
+node_modules/
+www/
+dist/
+web/
+ios/
+native/
+scripts/
+docs/
+licenses/
+.env*
+*.p8
+*.p12
+*.mobileprovision

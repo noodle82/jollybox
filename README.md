@@ -50,3 +50,9 @@ This is one more all-unlocked review build, with grown-up date tools retained. C
 
 INTERNAL TESTING UPLOAD
 The ios-testflight workflow uploads the IPA to the existing App Store Connect app but does not request external TestFlight beta review (submit_to_testflight: false). This avoids the earlier post-processing failure caused by missing external-review contact details. Use your existing internal group / automatic distribution setting, or add the processed build to that group in App Store Connect. No internal group name has been invented or changed here. See https://docs.codemagic.io/yaml-publishing/app-store-connect/ .
+
+LATEST REVIEW CHECKS
+Power Station is now the hilltop house, and theatre is the old lower-right Power Station building. On test date 3 December, verify that doors 1–3 open and door 4 stays locked. Unwrap all five surprises before toy/game play. Mission accomplished? is red and changes to green Mission accomplished! in the theatre only. See waiting screen now uses the real date; explicit simulated dates are labelled.
+
+COMPLETION AND JANUARY
+Finish all 24 days to see the keep-playing / new-calendar-next-year message. This edition and its collection remain available in January, including missed doors. The 2026 collection no longer resets when the device calendar changes year.
